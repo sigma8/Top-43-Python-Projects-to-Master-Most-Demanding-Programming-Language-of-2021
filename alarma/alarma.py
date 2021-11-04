@@ -27,7 +27,6 @@ class Aplicacion():
         #llamamos la instancia que contiene la hora actual
         self.reloj()
         #
-        
         #
         self.bt_set = ttk.Button(self.frame, text="Set Alarma", command=self.set_alarma)
         self.bt_set.grid(column=1, row=6, padx=10, sticky="s")
@@ -48,7 +47,7 @@ class Aplicacion():
 
     def set_alarma(self):
         self.ventana = Toplevel(self.root)
-        self.ventana.geometry("200x100")
+        self.ventana.geometry("400x100")
         self.ventana.title("Set Alarma")
         self.fm_set_alarma = ttk.Frame(self.ventana, borderwidth=2, padding=(10,10))
         self.fm_set_alarma.grid(column=1, row=0, sticky="nsew")
@@ -59,13 +58,21 @@ class Aplicacion():
         self.spinbox_minuto = Spinbox(self.fm_set_alarma, from_=0, to=59, format="%02.0f",
                                      width=4,font=('times', 20, 'bold'), state="readonly")
         self.spinbox_minuto.grid(column=2, row=2, padx=10, sticky="e")
-        self.bt_alarma = ttk.Button(self.fm_set_alarma, text= "Set")
+        self.spinbox_ampm = Spinbox(self.fm_set_alarma, values=("AM","PM"),
+                                    width=4,font=('times', 20, 'bold'), state="readonly")
+        self.spinbox_ampm.grid(column=3, row=2, padx=10, sticky="w")
+        self.bt_alarma = ttk.Button(self.fm_set_alarma, text= "Set", command=self.button_set)
         self.bt_alarma.grid(column=1, row=6, padx=10, pady=10, sticky="s")
-        self.bt_cancelar = ttk.Button(self.fm_set_alarma, text="Cancelar",
+        self.bt_cancelar = ttk.Button(self.fm_set_alarma, text="Cerrar",
                                      command=self.ventana.destroy)
         self.bt_cancelar.grid(column=2, row=6, padx=10, pady=10, sticky="s")
+        
+    def button_set(self):
+        despertador = [self.spinbox_hora.get(), self.spinbox_minuto.get(), self.spinbox_ampm.get()]
+        self.label_alarma = ttk.Label(self.fm_hora, text="", font=("times", 30, "bold"))
+        self.label_alarma.configure(text= f'{despertador[0]}:{despertador[1]} {despertador[2]}')
+        self.label_alarma.pack()
 
-    
 def main():
     mi_app = Aplicacion()
     return 0
